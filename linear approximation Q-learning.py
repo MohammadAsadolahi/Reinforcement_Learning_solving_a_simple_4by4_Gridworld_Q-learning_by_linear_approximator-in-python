@@ -180,28 +180,27 @@ approximator=OneHotApproximator()
 approximator.setValue(((2,2),'U'),25)
 approximator.getValue(((2,2),'U'))
 print(approximator.getValue(((2,2),'U')))
-# approximator = OneHotApproximator()
-# approximator=linearApproximator()
-# env = GridWorld()
-# exploreRate=0.02
-# # policy = enviroment.getRandomPolicy()
-# policy = {(0, 0): 'R', (0, 1): 'R', (0, 2): 'D', (0, 3): 'D', (1, 0): 'R', (1, 1): 'D', (1, 2): 'D', (1, 3): 'D',
+#approximator = OneHotApproximator()
+approximator=linearApproximator()
+env = GridWorld()
+exploreRate=0.02
+policy = enviroment.getRandomPolicy()
+#policy = {(0, 0): 'R', (0, 1): 'R', (0, 2): 'D', (0, 3): 'D', (1, 0): 'R', (1, 1): 'D', (1, 2): 'D', (1, 3): 'D',
 #           (2, 0): 'R', (2, 1): 'D', (2, 2): 'R', (2, 3): 'D', (3, 0): 'R', (3, 1): 'R', (3, 2): 'R'}
-# env.printPolicy(policy)
-#
-# for i in range(1000):
-#     state=env.getCurrentState()
-#     step=0
-#     while (not(env.is_terminal(state))) and step<30:
-#         chosedAction,nextState,reward=env.move(state,policy,exploreRate)
-#         state=nextState
-#         step += 1
-#         if env.is_terminal(nextState):
-#             target=reward
-#         else:
-#             target=reward+0.9*approximator.state2Value(nextState)
-#         approximator.applyGD(state,target)
-#
-# vTable=[approximator.state2Value(state) for state in env.actions.keys()]
-# env.printVaues(vTable)
-# print(f"exploited:{env.exploited}  explored:{env.explored}")
+env.printPolicy(policy)
+
+for i in range(1000):
+    state=env.getCurrentState()
+    step=0
+    while (not(env.is_terminal(state))) and step<30:
+        chosedAction,nextState,reward=env.move(state,policy,exploreRate)
+        state=nextState
+        step += 1
+        if env.is_terminal(nextState):
+            target=reward
+        else:
+            target=reward+0.9*approximator.state2Value(nextState)
+        approximator.applyGD(state,target)
+vTable=[approximator.state2Value(state) for state in env.actions.keys()]
+env.printVaues(vTable)
+print(f"exploited:{env.exploited}  explored:{env.explored}")
